@@ -32,15 +32,22 @@ app.get("/random", (req, res, next) => {
     });
 }); // get random
 
-// app.get("/categories", (req, res, next) => {
-//
-//   client.getJokeCategories()
-//     .then((response)=>  {
-//       // use the response here
-//     })
-//     .catch((err)=> {
-//       // handle error
-//     });
-// });
+app.get("/categories", (req, res, next) => {
+
+  client.getRandomJoke()  
+    .then((response) => {
+        res.locals.joke = response.value;
+    });
+
+  client.getJokeCategories()
+    .then((response) =>  {
+      // use the response here
+      res.locals.jokeCategories = response;
+      res.render("categories");
+    })
+    .catch((err) => {
+      // handle error
+    });
+});
 
 app.listen(3000);
